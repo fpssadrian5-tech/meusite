@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Hana Sushi & Grill — Culinária Japonesa</title>
+  <meta name="description" content="Restaurante japonês contemporâneo com sushis, sashimis e pratos quentes. Reserve sua mesa e peça no delivery." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0e0f12;
+      --surface:#151821;
+      --muted:#7a869a;
+      --text:#e7e9ef;
+      --primary:#e11d48; /* vermelho cereja */
+      --accent:#18a999; /* verde água sutil */
+      --card:#10131a;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--text);scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1100px,92%);margin-inline:auto}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(14,15,18,.9), rgba(14,15,18,.6));backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .nav__inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #ff6b8a, #6b0f1a);display:grid;place-items:center;box-shadow:var(--shadow)}
+    .logo svg{width:20px;height:20px;fill:white;opacity:.95}
+    .brand h1{font:700 18px/1 Inter;letter-spacing:.6px}
+    .nav a{padding:10px 14px;border-radius:12px;opacity:.92}
+    .nav a:hover{background:var(--surface)}
+    .cta{background:var(--primary);color:white;padding:10px 16px;border-radius:12px}
+
+    /* HERO */
+    .hero{position:relative;isolation:isolate}
+    .hero::before{content:"";position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;opacity:.35;z-index:-2}
+    .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 60% 20%, rgba(225,29,72,.25), transparent 60%), linear-gradient(180deg, rgba(14,15,18,.2), var(--bg) 80%);z-index:-1}
+    .hero__wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;padding:72px 0 56px}
+    .kicker{color:var(--accent);letter-spacing:.2em;text-transform:uppercase;font-weight:700;font-size:12px}
+    .headline{font-family:"Noto Serif JP", serif;font-weight:600;font-size:clamp(30px,5vw,48px);line-height:1.1;margin:10px 0 14px}
+    .sub{color:var(--muted);max-width:52ch}
+    .hero__cta{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);box-shadow:var(--shadow);cursor:pointer}
+    .btn--primary{background:var(--primary);border-color:transparent}
+
+    .hero__card{background:linear-gradient(180deg,#12151d, #0e1118);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .hero__card img{border-radius:16px}
+    .hero__card small{color:var(--muted)}
+
+    /* SEÇÕES */
+    section{padding:56px 0}
+    .section__title{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .section__title h2{font-family:"Noto Serif JP", serif;font-size:28px;margin:0}
+    .section__title p{color:var(--muted)}
+
+    /* SOBRE */
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .about__card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+
+    /* CARDÁPIO */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .menu-card{grid-column:span 4;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform .2s ease, box-shadow .2s ease}
+    .menu-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .menu-thumb{aspect-ratio:4/3;object-fit:cover}
+    .menu-body{padding:14px 14px 16px}
+    .menu-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+    .menu-title{font-weight:700}
+    .badge{background:rgba(24,169,153,.15);color:var(--accent);padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(24,169,153,.25)}
+    .desc{color:var(--muted);font-size:14px;margin:8px 0 10px;min-height:38px}
+    .price{font-weight:700}
+    .add{margin-top:10px;display:flex;gap:10px}
+
+    /* RESERVAS */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+    .form input,.form select,.form textarea{background:#0f1218;border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text);width:100%}
+    .form textarea{grid-column:span 2;min-height:90px}
+
+    /* FOOTER */
+    footer{padding:40px 0;border-top:1px solid var(--border);color:var(--muted)}
+
+    /* CHATBOX */
+    .chat-launcher{position:fixed;right:18px;bottom:18px;z-index:70;border:none;background:var(--primary);color:white;border-radius:999px;padding:14px;box-shadow:var(--shadow);cursor:pointer}
+    .chat-launcher svg{width:22px;height:22px}
+    .chat{position:fixed;right:18px;bottom:84px;width:360px;max-width:92vw;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);display:none;flex-direction:column;overflow:hidden;z-index:70}
+    .chat.open{display:flex}
+    .chat__head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg, rgba(225,29,72,.12), transparent)}
+    .chat__title{display:flex;gap:10px;align-items:center}
+    .chat__title .dot{width:10px;height:10px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+    .chat__body{padding:14px;height:320px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+    .msg{max-width:80%;padding:10px 12px;border-radius:14px;font-size:14px}
+    .bot{align-self:flex-start;background:#0f1218;border:1px solid var(--border)}
+    .user{align-self:flex-end;background:var(--primary);color:white}
+    .chat__quick{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;cursor:pointer}
+    .chat__input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border)}
+    .chat__input input{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:#0f1218;color:var(--text)}
+    .chat__input button{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--primary);color:white}
+
+    /* RESPONSIVO */
+    @media (max-width: 900px){
+      .hero__wrap{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .menu-card{grid-column:span 6}
+      .form{grid-template-columns:1fr}
+      .form textarea{grid-column:span 1}
+    }
+    @media (max-width: 600px){
+      .menu-card{grid-column:span 12}
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav" aria-label="Principal">
+    <div class="container nav__inner">
+      <a class="brand" href="#top" aria-label="Página inicial">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2c-3.7 0-7 2.7-7.8 6.3-.2.9.8 1.6 1.6 1.1C7.3 8.6 9.6 8 12 8s4.7.6 6.2 1.4c.8.4 1.8-.2 1.6-1.1C19 4.7 15.7 2 12 2zm0 6c-4.4 0-8 3.6-8 8 0 2.5 1.1 4.7 2.9 6.2.5.4 1.3.2 1.5-.5.7-2.1 1.9-3.7 3.6-4.6.4-.2.9-.2 1.3 0 1.7.9 2.9 2.6 3.6 4.6.2.7 1 .9 1.5.5C18.9 20.7 20 18.5 20 16c0-4.4-3.6-8-8-8z"/></svg>
+        </span>
+        <h1>Hana Sushi & Grill</h1>
+      </a>
+      <div>
+        <a href="#sobre">Sobre</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#reservas">Reservas</a>
+        <a href="#contato" class="cta">Contato</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" class="hero">
+    <div class="container hero__wrap">
+      <div>
+        <span class="kicker">Culinária Japonesa Autêntica</span>
+        <h2 class="headline">Experiências que combinam tradição e técnica contemporânea.</h2>
+        <p class="sub">Sushis, sashimis e pratos quentes preparados com ingredientes selecionados, menu sazonal e cartas de saquês e drinks autorais.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#reservas">Reservar mesa</a>
+          <a class="btn" href="#cardapio">Ver cardápio</a>
+          <!-- NOVO BOTÃO CALCULAR DELIVERY -->
+          <button class="btn" id="btnDelivery" aria-label="Calcular valor do delivery">Calcular Delivery</button>
+        </div>
+      </div>
+      <div class="hero__card">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop" alt="Prato de sushi colorido" />
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <small>Aberto hoje • 12h às 23h</small>
+          <small>⭐ 4,8 (1.240 avaliações)</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SOBRE -->
+  <section id="sobre" class="container">
+    <div class="section__title">
+      <h2>Sobre nós</h2>
+      <p>Excelência em cada detalhe</p>
+    </div>
+    <div class="about">
+      <div class="about__card">
+        <p><strong>Hana Sushi & Grill</strong> nasceu da paixão pela gastronomia japonesa. Nossa cozinha combina cortes precisos, arroz no ponto ideal e peixes frescos selecionados diariamente. O ambiente foi projetado para proporcionar conforto e uma experiência memorável.</p>
+      </div>
+      <div class="about__card">
+        <p>Possuímos opções <em>veggie</em>, menu infantil e itens sem glúten. Para eventos corporativos e comemorações, oferecemos menus fechados e personalização de acordo com a sua necessidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDÁPIO -->
+  <section id="cardapio" class="container">
+    <div class="section__title">
+      <h2>Cardápio</h2>
+      <p>Seleção com fotos reais dos pratos</p>
+    </div>
+
+    <div class="grid">
+      <!-- ITEM 1 -->
+      <article class="menu-card" aria-label="Combinado Clássico">
+        <img class="menu-thumb" src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=1400&auto=format&fit=crop" alt="Combinado de sushi e sashimi" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Combinado Clássico (28 peças)</div>
+              <div class="desc">Sushis variados, sashimis de salmão e atum, uramakis e niguiris.</div>
+            </div>
+            <span class="badge">Mais pedido</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 119,00</div>
+            <button class="btn" aria-label="Adicionar Combinado Clássico">Adicionar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ITEM 2 -->
+      <article class="menu-card" aria-label="Salmão Trufado">
+        <img class="menu-thumb" src="DSC_1064.webp" alt="Niguiri de salmão trufado" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Niguiri de Salmão Trufado (6 un)</div>
+              <div class="desc">Salmão selado, azeite trufado e cebolinha.</div>
+            </div>
+            <span class="badge">Especial da casa</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 42,00</div>
+            <button class="btn" aria-label="Adicionar Niguiri de Salmão Trufado">Adicionar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ITEM 3 -->
+      <article class="menu-card" aria-label="Tataki de Atum">
+        <img class="menu-thumb" src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=80&w=1400&auto=format&fit=crop" alt="Atum tataki fatiado" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Tataki de Atum</div>
+              <div class="desc">Atum selado com crosta de gergelim e ponzu cítrico.</div>
+            </div>
+            <span class="badge">Novo</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 58,00</div>
+            <button class="btn" aria-label="Adicionar Tataki de Atum">Adicionar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ITEM 4 -->
+      <article class="menu-card" aria-label="Lamen">
+        <img class="menu-thumb" src="tonkotsuramenfront.jpg" alt="Tigela de lámen fumegante" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Lámen Tonkotsu</div>
+              <div class="desc">Caldo rico, chashu, ovo cremoso e cebolinha.</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 52,00</div>
+            <button class="btn" aria-label="Adicionar Lámen Tonkotsu">Adicionar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ITEM 5 -->
+      <article class="menu-card" aria-label="Yakisoba">
+        <img class="menu-thumb" src="R.jpeg" alt="Yakisoba de legumes" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Yakisoba de Legumes</div>
+              <div class="desc">Legumes salteados, macarrão ao molho da casa.</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 39,00</div>
+            <button class="btn" aria-label="Adicionar Yakisoba de Legumes">Adicionar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- ITEM 6 -->
+      <article class="menu-card" aria-label="Tempurá">
+        <img class="menu-thumb" src="https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?q=80&w=1400&auto=format&fit=crop" alt="Tempurá crocante" />
+        <div class="menu-body">
+          <div class="menu-top">
+            <div>
+              <div class="menu-title">Tempurá Misto</div>
+              <div class="desc">Camarão e legumes em massa leve e crocante.</div>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="price">R$ 45,00</div>
+            <button class="btn" aria-label="Adicionar Tempurá Misto">Adicionar</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- RESERVAS -->
+  <section id="reservas" class="container">
+    <div class="section__title">
+      <h2>Reservas</h2>
+      <p>Garanta sua experiência</p>
+    </div>
+    <div class="card">
+      <form class="form" onsubmit="event.preventDefault();alert('Reserva enviada! Entraremos em contato.');">
+        <input type="text" required placeholder="Nome completo" aria-label="Nome" />
+        <input type="tel" required placeholder="Telefone / WhatsApp" aria-label="Telefone" />
+        <input type="date" required aria-label="Data" />
+        <select required aria-label="Horário">
+          <option value="">Selecione o horário</option>
+          <option>12:00</option>
+          <option>13:00</option>
+          <option>19:00</option>
+          <option>20:00</option>
+          <option>21:00</option>
+        </select>
+        <input type="number" min="1" max="12" required placeholder="Pessoas" aria-label="Quantidade de pessoas" />
+        <textarea placeholder="Observações (opcional)"></textarea>
+        <button class="btn btn--primary" type="submit">Enviar reserva</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CONTATO / MAPA -->
+  <section id="contato" class="container">
+    <div class="section__title">
+      <h2>Contato</h2>
+      <p>Estamos no seu bairro</p>
+    </div>
+    <div class="about">
+      <div class="about__card">
+        <p><strong>Endereço:</strong> Rua das Cerejeiras, 123 — Centro<br>
+        <strong>Telefone:</strong> (11) 3333-0000<br>
+        <strong>WhatsApp:</strong> <a href="#" aria-label="Abrir WhatsApp">(11) 98888-0000</a><br>
+        <strong>Horários:</strong> Seg a Dom, 12h–23h</p>
+        <p>Siga no Instagram: <a href="#">@hanasushi</a></p>
+      </div>
+      <div class="about__card">
+        <img src="19b69883409285ee18013d96cfd230ed.jpg" alt="Ambiente do restaurante" />
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div>© <span id="year"></span> Hana Sushi & Grill. Todos os direitos reservados.</div>
+      <div>Desenvolvido com ♥ — <a href="#top">voltar ao topo</a></div>
+    </div>
+  </footer>
+
+  <!-- CHATBOX -->
+  <button class="chat-launcher" id="chatToggle" aria-label="Abrir chat">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+  </button>
+
+  <aside class="chat" id="chat" aria-live="polite" aria-label="Chat de atendimento">
+    <div class="chat__head">
+      <div class="chat__title"><span class="dot" aria-hidden="true"></span><strong>Atendimento Hana</strong></div>
+      <button class="btn" id="closeChat" aria-label="Fechar chat">Fechar</button>
+    </div>
+    <div class="chat__body" id="messages">
+      <div class="msg bot">Olá! Sou o assistente do Hana. Posso ajudar com reservas, cardápio e horário de funcionamento. 🙂</div>
+      <div class="chat__quick" id="quick">
+        <span class="chip" data-q="Horário">Horário</span>
+        <span class="chip" data-q="Endereço">Endereço</span>
+        <span class="chip" data-q="Ver cardápio">Ver cardápio</span>
+        <span class="chip" data-q="Reservar mesa">Reservar mesa</span>
+        <!-- NOVO CHIP PARA DELIVERY -->
+        <span class="chip" data-q="Calcular Delivery">Calcular Delivery</span>
+      </div>
+    </div>
+    <form class="chat__input" id="chatForm">
+      <input id="chatInput" type="text" placeholder="Digite sua mensagem..." aria-label="Mensagem" />
+      <button type="submit" aria-label="Enviar">Enviar</button>
+    </form>
+  </aside>
+
+  <script>
+    // Ano no rodapé
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toggle Chat
+    const chat = document.getElementById('chat');
+    const toggleBtn = document.getElementById('chatToggle');
+    const closeBtn = document.getElementById('closeChat');
+    toggleBtn.addEventListener('click', ()=> chat.classList.toggle('open'));
+    closeBtn.addEventListener('click', ()=> chat.classList.remove('open'));
+
+    // Chat simples
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('messages');
+    const quick = document.getElementById('quick');
+    const btnDelivery = document.getElementById('btnDelivery');
+
+    const faq = [
+      { k: /hor[áa]rio|aberto|funciona/i, v: 'Funcionamos de segunda a domingo, das 12h às 23h.' },
+      { k: /endere[cç]o|local/i, v: 'Estamos na Rua das Cerejeiras, 123 — Centro.' },
+      { k: /card[aá]pio|menu|pratos/i, v: 'Nosso cardápio está nesta página. Role até a seção “Cardápio” ou clique em Ver cardápio.' },
+      { k: /reserv(a|ar)|mesa/i, v: 'Posso anotar sua reserva! Informe nome, data, horário e número de pessoas ou use o formulário em Reservas.' },
+      { k: /delivery|ifood|app/i, v: 'Atendemos delivery pelo telefone e WhatsApp (11) 98888‑0000.' },
+    ];
+
+    function addMessage(text, who='bot'){
+      const div = document.createElement('div');
+      div.className = 'msg ' + who;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function botReply(q){
+      const hit = faq.find(f => f.k.test(q));
+      if(hit) return hit.v;
+      if(/calcular\s*delivery|frete|cep/i.test(q)) { fluxoDelivery(); return 'Vamos calcular seu delivery!'; }
+      if(/ol[aá]|oi|boa/i.test(q)) return 'Olá! Como posso ajudar?';
+      return 'Não entendi muito bem. Você pode perguntar sobre horário, endereço, cardápio ou reservas.';
+    }
+
+    // ====== CÁLCULO DE FRETE (EXEMPLO LOCAL) ======
+    function normalizarCEP(cep){
+      return cep.replace(/\D/g, '').replace(/(\d{5})(\d{3})/, '$1-$2');
+    }
+
+    function calcularFrete(cep){
+      // Regra fictícia: taxa base + multiplicador por "zona" derivada do CEP
+      const valido = /^\d{5}-?\d{3}$/.test(cep);
+      if(!valido) return null;
+      const limpo = cep.replace(/\D/g, '');
+      const base = 8; // R$ 8,00
+      const zona = parseInt(limpo.slice(0,2), 10); // usa dois primeiros dígitos
+      const kmEstimado = (zona % 9) + 1; // 1 a 9 km (estimativa ilustrativa)
+      const porKm = 2.5; // R$ 2,50 por km (exemplo)
+      const valor = base + kmEstimado * porKm;
+      return { valor, km: kmEstimado };
+    }
+
+    let aguardandoCEP = false;
+    function fluxoDelivery(){
+      addMessage('Digite seu CEP no formato 00000-000 para calcular o valor do delivery:', 'bot');
+      if(aguardandoCEP) return; // evita múltiplos listeners
+      aguardandoCEP = true;
+
+      const listener = (e)=>{
+        e.preventDefault();
+        const cepDigitado = input.value.trim();
+        if(!cepDigitado) return;
+        addMessage(cepDigitado, 'user');
+        input.value = '';
+
+        const res = calcularFrete(cepDigitado);
+        if(res){
+          const cepFmt = normalizarCEP(cepDigitado);
+          const valorFmt = res.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+          setTimeout(()=> addMessage(`Entrega para CEP ${cepFmt}: estimativa ${valorFmt} (≈ ${res.km} km).`, 'bot'), 300);
+          setTimeout(()=> addMessage('Obs.: valor estimado para demonstração. Confirme no WhatsApp para preço final.', 'bot'), 450);
+        }else{
+          setTimeout(()=> addMessage('CEP inválido. Tente novamente no formato 00000-000.', 'bot'), 300);
+        }
+
+        form.removeEventListener('submit', listener);
+        aguardandoCEP = false;
+      };
+
+      form.addEventListener('submit', listener);
+    }
+
+    // Envio normal do chat
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const txt = input.value.trim(); if(!txt) return;
+      addMessage(txt, 'user');
+      input.value = '';
+      setTimeout(()=> addMessage(botReply(txt), 'bot'), 300);
+    });
+
+    // Chips rápidos
+    quick?.addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      const q = chip.dataset.q;
+      addMessage(q, 'user');
+      if(q === 'Calcular Delivery'){ fluxoDelivery(); return; }
+      setTimeout(()=> addMessage(botReply(q), 'bot'), 250);
+    });
+
+    // Botão do herói abre chat e inicia cálculo
+    btnDelivery?.addEventListener('click', ()=>{
+      chat.classList.add('open');
+      fluxoDelivery();
+    });
+
+    // Scroll suave para âncoras da navbar
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id.length > 1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
+      })
+    });
+  </script>
+</body>
+</html>
